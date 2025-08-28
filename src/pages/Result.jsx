@@ -1,13 +1,28 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../context/UserContext";
 import { data } from "../assets/data";
 
 const Result = () => {
-  const { correct, user } = useContext(UserContext);
+  const { selectedAnswer,user } = useContext(UserContext);
   const {theme}=useContext(UserContext)
-  console.log(data)
+
+  const [correct,setCorrect] = useState(0);
+  
+ useEffect(()=>{
+
+  let count = 0;
+  for(let i=0;i<data.length;i++){
+    if(selectedAnswer[i].answer == data[i].answer){
+      count++;
+    }
+  }
+
+  setCorrect(count)
+
+  },[]);
 
   return (
+
     <div className={`flex justify-center items-center h-screen ${theme?'bg-gray-700':'bg-gradient-to-b from-gray-100 to-blue-50'}`}>
       <div className={`px-12 py-8 text-xl ${theme?'bg-gray-300':'bg-white'} shadow-lg rounded-lg border border-gray-300`}>
         <div className="text-3xl text-indigo-800 font-semibold text-center p-4">
@@ -26,7 +41,7 @@ const Result = () => {
         </div>
   
         <div className="text-indigo-800 text-center text-2xl font-medium p-4">
-          Score: <span className="font-semibold">{correct} / {data.length}</span>
+          Score: <span className="font-semibold"> {correct} / {data.length}</span>
         </div>
       </div>
     </div>

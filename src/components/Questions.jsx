@@ -5,9 +5,14 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 const Questions = () => {
-const[index , setIndex] = useState(0);
+    const[index , setIndex] = useState(0);
+    const{selectedAnswer} = useContext(UserContext)
 
-const{correct , setCorrect} = useContext(UserContext)
+
+    const checkOption=(answer)=>{
+        selectedAnswer[index].answer = answer;
+        nextHandler()
+      }
 
     const nextHandler =()=>{
         if(index < data.length-1){
@@ -29,12 +34,6 @@ const{correct , setCorrect} = useContext(UserContext)
         navigate('/result')
     }
 
-    const checkOption=(answer)=>{
-        if(data[index].answer===answer){
-            setCorrect(correct+1)
-        }
-        nextHandler()
-    }
     
  const{theme}=useContext(UserContext)
 
@@ -51,13 +50,13 @@ const{correct , setCorrect} = useContext(UserContext)
     
             <div className="grid grid-cols-1 gap-4">
               {data[index].options.map((option, i) => (
-                <button
+                <div
                   key={i}
-                  className={`w-full border border-indigo-600 ${theme?'bg-gray-200':'bg-gray-100'} text-black text-base font-medium py-3 rounded-md hover:bg-gray-500 hover:text-white transition-all duration-500`}
+                  className={`w-full border border-indigo-600 ${theme?'bg-gray-200':'bg-gray-100'} text-black text-base font-medium py-3 px-2 hover:px-20 cursor-pointer rounded-md hover:bg-gray-500 hover:text-white transition-all duration-500`}
                   onClick={() => checkOption(option)}
                 >
                   {option}
-                </button>
+                </div>
               ))}
             </div>
     
